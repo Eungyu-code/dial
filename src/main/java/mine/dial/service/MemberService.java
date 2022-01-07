@@ -7,6 +7,8 @@ import mine.dial.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -16,17 +18,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member join(Member member) {
+    public void join(Member member) {
 
-        validateDuplicateMember(member);
+        //validateDuplicateMember(member);
         memberRepository.save(member);
-        return member;
+
     }
 
+    @Transactional(readOnly = true)
     private void validateDuplicateMember(Member member) {
 
-        Member findMember = memberRepository.findByName(member.getName());
-        if (findMember != null) throw new IllegalStateException("이미 존재하는 회원입니다");
+        List<Member> members = memberRepository.findByNameAll(member.getName());
+        if (!members.isEmpty()) throw new IllegalStateException("이미 존재하는 회원입니다");
     }
 
     public Member login(String name, String password) throws Exception {
@@ -41,14 +44,16 @@ public class MemberService {
         catch (NullPointerException e) {
             log.error("존재하지 않는 회원입니다");
 
-            return null;
         }
         catch (IllegalStateException e) {
             log.error("비밀번호가 잘못되었습니다");
 
-            return null;
         }
 
+        return memberRepository.findByName(name);
+    }
+
+    public Member findOne(String name) {
         return memberRepository.findByName(name);
     }
 }

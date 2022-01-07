@@ -12,16 +12,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DialRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(DialNumber dialNumber) {
         em.persist(dialNumber);
+    }
+
+    public DialNumber findById(Long id) {
+        return em.find(DialNumber.class, id);
     }
 
     public DialNumber findByNumber(Integer number) {
         return em.createQuery("select d from DialNumber d where d.number = :number", DialNumber.class)
                 .setParameter("number", number)
                 .getSingleResult();
+    }
+
+    public List<DialNumber> findByNumberAll(String number) {
+        return em.createQuery("select d from DialNumber d where d.number = :number", DialNumber.class)
+                .setParameter("number", number)
+                .getResultList();
     }
 
     public List<DialNumber> findByName(String name) {
@@ -32,6 +42,11 @@ public class DialRepository {
 
     public List<DialNumber> findByMember(Member member) {
         return em.createQuery("select d from DialNumber d where d.member = :member", DialNumber.class)
+                .getResultList();
+    }
+
+    public List<DialNumber> findAll() {
+        return em.createQuery("select d from DialNumber d", DialNumber.class)
                 .getResultList();
     }
 }

@@ -19,14 +19,27 @@ class MemberServiceTest {
     EntityManager em;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberService memberService;
 
+    @AfterEach
+    void aftereach() {
+        em.clear();
+    }
 
     @Test
-    public void 회원가입() throws Exception {
+    void 회원가입() throws Exception {
 
+        //given
         Member member = new Member();
-        memberRepository.save(member.create("이은규", "1234"));
+
+        memberService.join(member.create("이은규", "1234"));
+
+        //when
+        Member findMember = memberService.findOne("이은규");
+
+        //then
+        Assertions.assertThat(findMember).isEqualTo(member);
     }
+
 
 }

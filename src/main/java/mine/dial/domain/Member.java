@@ -23,8 +23,6 @@ public class Member {
     private List<DialNumber> dialNumbers = new ArrayList<>();
 
     private String name;
-
-    @Column(columnDefinition = "LONGTEXT")
     private String password;
 
 

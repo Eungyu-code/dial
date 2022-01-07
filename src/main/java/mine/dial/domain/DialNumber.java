@@ -3,6 +3,7 @@ package mine.dial.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,15 +18,17 @@ public class DialNumber {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private Integer number;
+    private String number;
     private String name;
     private String information;
 
     @Embedded
     private Address address;
 
+    private LocalDateTime addDate;
+
     // ID Generation method
-    public DialNumber create(Member member, Integer number, String city, String street, String zipcode, String name, String information) {
+    public DialNumber create(Member member, String number, String city, String street, String zipcode, String name, String information) {
 
         this.member = member;
         this.number = number;
@@ -34,5 +37,14 @@ public class DialNumber {
         this.information = information;
 
         return this;
+    }
+
+    public void update(String number, String city, String street, String zipcode, String name, String information) {
+
+        this.number = number;
+        this.address = new Address(city, street, zipcode);
+        this.name = name;
+        this.information = information;
+
     }
 }
