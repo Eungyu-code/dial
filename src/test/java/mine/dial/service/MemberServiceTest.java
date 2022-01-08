@@ -27,12 +27,13 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원가입() throws Exception {
+    void 회원가입() {
 
         //given
         Member member = new Member();
+        member.create("이은규", "1234");
 
-        memberService.join(member.create("이은규", "1234"));
+        memberService.join(member);
 
         //when
         Member findMember = memberService.findOne("이은규");
@@ -41,5 +42,20 @@ class MemberServiceTest {
         Assertions.assertThat(findMember).isEqualTo(member);
     }
 
+    @Test
+    void 로그인() throws Exception {
+
+        //given
+        Member member = new Member();
+        member.create("이은규", "1234");
+
+        memberService.join(member);
+
+        //when
+        Member findMember = memberService.login("이은규", "1234");
+
+        //then
+        Assertions.assertThat(findMember).isEqualTo(member);
+    }
 
 }

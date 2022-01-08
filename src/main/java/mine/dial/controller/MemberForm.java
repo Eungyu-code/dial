@@ -1,15 +1,18 @@
 package mine.dial.controller;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 
+
 @Getter
+@Setter
 public class MemberForm {
 
-    @NotEmpty(message = "회원 이름을 입력하지 않았습니다")
+    @NotEmpty(message = "회원 이름은 필수 입력사항입니다")
     private String name;
 
-    @NotEmpty(message = "비밀번호를 입력하지 않았습니다")
+    @NotEmpty(message = "비밀번호는 필수 입력사항입니다")
     private String password;
 }

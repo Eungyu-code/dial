@@ -25,26 +25,10 @@ public class Member {
     private String name;
     private String password;
 
-
-    public static String getSHA512(String input) throws Exception {
-
-        String toReturn = null;
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-512");
-            digest.update(input.getBytes("UTF-8"));
-            toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
-        } catch (Exception e) {
-            log.error("비밀번호 복호화 오류");
-        }
-
-        return toReturn;
-    }
-
-    public Member create(String name, String password) throws Exception {
+    public void create(String name, String password) {
         this.name = name;
-        this.password = getSHA512(password);
+        this.password = password;
 
-        return this;
     }
 
 }

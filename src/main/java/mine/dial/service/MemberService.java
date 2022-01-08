@@ -38,7 +38,7 @@ public class MemberService {
             if (memberRepository.findByName(name) == null) throw new NullPointerException();
 
             Member findMember = memberRepository.findByName(name);
-            if (findMember.getPassword().equals(Member.getSHA512(password)))
+            if (findMember.getPassword().equals(password))
                 throw new IllegalStateException("비밀번호가 잘못되었습니다.");
         }
         catch (NullPointerException e) {
